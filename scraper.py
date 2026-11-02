@@ -31,6 +31,7 @@ import sys
 import json
 import time
 import argparse
+from html import unescape as html_unescape
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
@@ -59,19 +60,24 @@ except ImportError:
 BASE_DIR = Path(__file__).resolve().parent
 
 # useragents.me embed data JSON di textarea halaman HTML.
-# Kedua section: most-common-desktop-useragents-json-csv &
-#                most-common-mobile-useragents-json-csv
-# Pattern textarea yang memuat JSON array of {"ua":..., "pct":...}
+# Struktur saat ini (sejak redesign situs, akhir Sep 2026):
+#   <textarea id="desktop-json"> / <textarea id="mobile-json">
+#   berisi JSON object HTML-escaped: {"data": [{"useragent": ..., ...}]}
+# Struktur lama (sudah tidak ada di situs):
+#   section most-common-*-useragents-json-csv berisi array [{"ua": ...}]
+# Parser mencoba struktur baru dulu, lalu fallback ke struktur lama.
 UA_SOURCES = {
     "desktop": {
-        "url":      "https://www.useragents.me/",
-        "anchor_id": "most-common-desktop-useragents-json-csv",
-        "label":     "Desktop (useragents.me)",
+        "url":         "https://www.useragents.me/",
+        "textarea_id": "desktop-json",
+        "anchor_id":   "most-common-desktop-useragents-json-csv",
+        "label":       "Desktop (useragents.me)",
     },
     "mobile": {
-        "url":      "https://www.useragents.me/",
-        "anchor_id": "most-common-mobile-useragents-json-csv",
-        "label":     "Mobile (useragents.me)",
+        "url":         "https://www.useragents.me/",
+        "textarea_id": "mobile-json",
+        "anchor_id":   "most-common-mobile-useragents-json-csv",
+        "label":       "Mobile (useragents.me)",
     },
 }
 
@@ -165,6 +171,41 @@ def _extract_uas_from_section(html: str, anchor_id: str) -> list:
     return uas
 
 
+_TEXTAREA_BY_ID_PATTERN = re.compile(
+    r'<textarea[^>]*\bid=["\'](?P<id>[^"\']+)["\'][^>]*>(?P<body>.*?)</textarea>',
+    re.DOTALL,
+)
+
+
+def _extract_uas_from_textarea(page_html: str, textarea_id: str) -> list:
+    """
+    Struktur baru useragents.me: <textarea id="desktop-json"> berisi JSON
+    object HTML-escaped {"data": [{"useragent": ..., "frequency": ...}]}.
+    Return list UA string, atau list kosong jika gagal.
+    """
+    for m in _TEXTAREA_BY_ID_PATTERN.finditer(page_html):
+        if m.group("id") != textarea_id:
+            continue
+        raw = html_unescape(m.group("body")).strip()
+        try:
+            parsed = json.loads(raw)
+        except (json.JSONDecodeError, ValueError):
+            return []
+        items = parsed.get("data", []) if isinstance(parsed, dict) else parsed
+        uas = []
+        for item in items:
+            if isinstance(item, dict):
+                ua = (item.get("useragent") or item.get("ua") or "").strip()
+            elif isinstance(item, str):
+                ua = item.strip()
+            else:
+                continue
+            if ua:
+                uas.append(ua)
+        return uas
+    return []
+
+
 def fetch_page_html(session: "requests.Session", url: str, label: str) -> str:
     """Fetch halaman HTML; return string kosong jika gagal."""
     timeout = getattr(session, "_custom_timeout", 10)
@@ -199,10 +240,12 @@ def fetch_all_ua(session: "requests.Session") -> tuple:
     all_uas = []
     failed = []
     for key, cfg in UA_SOURCES.items():
-        anchor = cfg["anchor_id"]
         label  = cfg["label"]
-        print(f"[*] Parsing section '{key}' (anchor: {anchor}) ...", end=" ", flush=True)
-        uas = _extract_uas_from_section(html, anchor)
+        print(f"[*] Parsing section '{key}' (textarea: {cfg['textarea_id']}) ...", end=" ", flush=True)
+        uas = _extract_uas_from_textarea(html, cfg["textarea_id"])
+        if not uas:
+            # Fallback: struktur lama (section most-common-*-useragents-json-csv)
+            uas = _extract_uas_from_section(html, cfg["anchor_id"])
         if uas:
             print(f"[OK] {len(uas)} UA ditemukan.")
             all_uas.extend(uas)
