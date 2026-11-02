@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Automated User-Agent Fetcher & Categorizer
-Author: SoraDev-ID
-Repo: https://github.com/SoraDev-ID/user-agent-list
+Author: SoraaaID
+Repo: https://github.com/SoraaaID/user-agent-list
 
 Mengambil daftar User-Agent terkini dari berbagai API & public telemetry feeds,
 melakukan pembersihan, deduplikasi, dan mengkategorikannya ke dalam folder data/.
@@ -357,7 +357,7 @@ def main():
 
     print("══════════════════════════════════════════════════════════════")
     print("      AUTOMATED USER-AGENT FETCHER & CATEGORIZER")
-    print("                  Author: SoraDev-ID")
+    print("                  Author: SoraaaID")
     print("══════════════════════════════════════════════════════════════\n")
 
     session = create_resilient_session()

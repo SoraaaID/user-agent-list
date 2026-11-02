@@ -153,7 +153,7 @@ const randomUA = userAgents[Math.floor(Math.random() * userAgents.length)];
 
 1. **Kloning Repository & Masuk ke Folder**:
    ```bash
-   git clone https://github.com/SoraDev-ID/user-agent-list.git
+   git clone https://github.com/SoraaaID/user-agent-list.git
    cd user-agent-list
    ```
 
@@ -220,5 +220,5 @@ Didistribusikan di bawah lisensi resmi **Apache License 2.0**. Bebas digunakan u
 ---
 
 <p align="center">
-  Dikelola oleh <b><a href="https://github.com/SoraDev-ID">SoraDev-ID</a></b>
+  Dikelola oleh <b><a href="https://github.com/SoraaaID">SoraaaID</a></b>
 </p>

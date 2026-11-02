@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python3
 """
 ua.txt Auto-Updater -- useragents.me HTML scraper
-Author  : SoraDev-ID
-Repo    : https://github.com/SoraDev-ID/user-agent-list
+Author  : SoraaaID
+Repo    : https://github.com/SoraaaID/user-agent-list
 
 Mengambil daftar User-Agent browser umum terkini dari useragents.me
 dengan mem-parse JSON yang di-embed dalam halaman HTML (textarea).
@@ -319,7 +319,7 @@ def main() -> None:
     start_time = time.time()
     print("================================================================")
     print("        UA SCRAPER -- useragents.me -> ua.txt")
-    print("                  Author: SoraDev-ID")
+    print("                  Author: SoraaaID")
     print("================================================================\n")
 
     session = create_session(timeout=args.timeout, retries=args.retries)
