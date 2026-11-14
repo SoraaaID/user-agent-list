@@ -1,8 +1,8 @@
 ### MACHINE-PARSEABLE JSON ###
 {
-  "updated_at_utc": "2026-11-13T10:29:04Z",
-  "updated_at_wib": "2026-11-13T17:29:04+07:00",
-  "duration_seconds": 0.27,
+  "updated_at_utc": "2026-11-14T09:47:15Z",
+  "updated_at_wib": "2026-11-14T16:47:15+07:00",
+  "duration_seconds": 0.19,
   "ua_count": 40,
   "source": "useragents.me (desktop + mobile)",
   "status": "success"
@@ -12,9 +12,9 @@
 ================================================================
         User-Agent List -- Status Pembaruan Terakhir
 ================================================================
-Waktu Update (UTC) : 2026-11-13 10:29:04 UTC
-Waktu Update (WIB) : 2026-11-13 17:29:04 WIB
-Durasi             : 0.27 detik
+Waktu Update (UTC) : 2026-11-14 09:47:15 UTC
+Waktu Update (WIB) : 2026-11-14 16:47:15 WIB
+Durasi             : 0.19 detik
 ================================================================
 Sumber             : useragents.me (desktop + mobile)
 Total UA di ua.txt :     40 entri
