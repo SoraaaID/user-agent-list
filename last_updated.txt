@@ -1,7 +1,7 @@
 ### MACHINE-PARSEABLE JSON ###
 {
-  "updated_at_utc": "2026-11-25T12:04:15Z",
-  "updated_at_wib": "2026-11-25T19:04:15+07:00",
+  "updated_at_utc": "2026-11-26T11:51:45Z",
+  "updated_at_wib": "2026-11-26T18:51:45+07:00",
   "duration_seconds": 0.23,
   "ua_count": 40,
   "source": "useragents.me (desktop + mobile)",
@@ -12,8 +12,8 @@
 ================================================================
         User-Agent List -- Status Pembaruan Terakhir
 ================================================================
-Waktu Update (UTC) : 2026-11-25 12:04:15 UTC
-Waktu Update (WIB) : 2026-11-25 19:04:15 WIB
+Waktu Update (UTC) : 2026-11-26 11:51:45 UTC
+Waktu Update (WIB) : 2026-11-26 18:51:45 WIB
 Durasi             : 0.23 detik
 ================================================================
 Sumber             : useragents.me (desktop + mobile)
